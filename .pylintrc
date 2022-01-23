@@ -1,0 +1,11 @@
+[MESSAGES CONTROL]
+
+disable=missing-class-docstring,
+        missing-function-docstring,
+        missing-module-docstring,
+        line-too-long,
+        too-few-public-methods, # reason: https://github.com/PyCQA/pylint/issues/3370
+        fixme
+
+# https://github.com/samuelcolvin/pydantic/issues/1961
+extension-pkg-whitelist=pydantic

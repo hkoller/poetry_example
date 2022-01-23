@@ -1,0 +1,45 @@
+[tool.poetry]
+name = "poetry_example"
+version = "0.0.1.dev"
+description = ""
+authors = ["hkoller <hannes.koller@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "3.9.*"
+fastapi = "^0.70.0"
+pydantic = "^1.8.2"
+python-dotenv = "^0.19.1"
+uvicorn = "^0.15.0"
+
+[tool.poetry.dev-dependencies]
+black = "^21.10b0"
+pytest = "^6.2.5"
+mypy = "^0.910"
+pylint = "^2.11.1"
+poetry-lock-package = "^0.4.2"
+pytest-mock = "^3.6.1"
+poethepoet = "^0.10.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 120
+
+[tool.poetry2conda]
+name = "poetryexample"
+
+# pylint configuration should be moved to pyproject.toml but only when
+# https://github.com/PyCQA/pylint/issues/3181
+# is fixed
+
+# mypy configuration should be moved to pyproject.toml but only when
+# https://github.com/samuelcolvin/pydantic/issues/2895
+# is fixed
+
+[tool.poe.tasks]
+check = [{script="devtools.build:check"}]
+doc = [{script="devtools.build:doc"}]
+docker = [{script="devtools.build:docker"}]
+release = [{script="devtools.build:release"}]
