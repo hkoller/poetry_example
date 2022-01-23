@@ -26,7 +26,9 @@ async def startup_event() -> None:
     logger.info("Server starting..")
 
 
-@app.get("/calculate_get", response_model=CalculationResponse, description="Calculates something using a GET request...")
+@app.get(
+    "/calculate_get", response_model=CalculationResponse, description="Calculates something using a GET request..."
+)
 async def calculate_get(x: int, y: float) -> CalculationResponse:  # pylint: disable=invalid-name
     logger.info("Calculating x=%s y=%s", x, y)
     return CalculationResponse(result=110)
