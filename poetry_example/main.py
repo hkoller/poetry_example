@@ -32,17 +32,19 @@ async def startup_event() -> None:
 )
 async def calculate_get(x: int, y: float) -> CalculationResponse:  # pylint: disable=invalid-name
     logger.info("Calculating x=%s y=%s", x, y)
-    result = Calculator().calculate(x=x, y=y)
+    value = Calculator().calculate(x=x, y=y)
+    result = CalculationResponse(result=value)
     logger.info("Finished. Result=%s", result)
     return result
-
+ 
 
 @app.post(
     "/calculate_post", response_model=CalculationResponse, description="Calculates something using a POST request..."
 )
 async def calculate_post(request: CalculationRequest) -> CalculationResponse:
     logger.info("Processing request: %s...", str(request))
-    result = Calculator().calculate(x=request.x, y=request.y)
+    value = Calculator().calculate(x=request.x, y=request.y)
+    result = CalculationResponse(result=value)
     logger.info("Finished. Result=%s", result)
     return result
 
