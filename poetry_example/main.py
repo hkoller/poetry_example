@@ -7,6 +7,7 @@ from starlette.responses import HTMLResponse
 
 from poetry_example.utils import init_logging
 from poetry_example.data import CalculationRequest, CalculationResponse
+from poetry_example.calculation import Calculator
 
 init_logging()
 logger = logging.getLogger("poetry_example")
@@ -31,7 +32,9 @@ async def startup_event() -> None:
 )
 async def calculate_get(x: int, y: float) -> CalculationResponse:  # pylint: disable=invalid-name
     logger.info("Calculating x=%s y=%s", x, y)
-    return CalculationResponse(result=110)
+    result = Calculator().calculate(x=x, y=y)
+    logger.info("Finished. Result=%s", result)
+    return result
 
 
 @app.post(
@@ -39,8 +42,8 @@ async def calculate_get(x: int, y: float) -> CalculationResponse:  # pylint: dis
 )
 async def calculate_post(request: CalculationRequest) -> CalculationResponse:
     logger.info("Processing request: %s...", str(request))
-    result = CalculationResponse(result=10)
-    logger.info("Finished result=%s", result)
+    result = Calculator().calculate(x=request.x, y=request.y)
+    logger.info("Finished. Result=%s", result)
     return result
 
 
