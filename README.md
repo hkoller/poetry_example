@@ -56,17 +56,28 @@ Now:
 - go to http://127.0.0.1:8000/docs  the API docs are less pretty there, but you can directly try out requests here
 
 ## Using PyCharm?
+### Make Pycharm use the Poetry environment
+The poetry environment contains a python interpreter and all the poetry-managed dependencies. You need to tell Pycharm to use it. So first find out where the poetry environment is stored:
+```
+poetry env info  # look at the contents of the Path: variable
+```
+
+Now, in Pycharm add a "System Interpreter" and point it to the python3.9 binary in the poetry environment. 
+
+**Warning:** if PyCharm suggests to install python packages for you **DON'T** let it. Python packages **need** to be installed and managed by Poetry (```poetry add some_package```)
+
+### Tools
 If you develop using PyCharm, your life will become easier if you install the plug-ins _pydantic_, _mypy_ and 
 _pylint_.
 
-### Black Code Formatter
+#### Black Code Formatter
 PyCharm still doesn't support the black code style natively (which we use in this project), so you must follow these
 instructions to define a black shortcut:
 
 https://black.readthedocs.io/en/stable/integrations/editors.html#pycharm-intellij-idea
 
 
-### Uvicorn
+#### Uvicorn
 Completely optional (I prefer the commandline). But if you want to start uvicorn directly from PyCharm, you can create a Pycharm module configuration with these properties: 
 * Module name (**not** script path): uvicorn
 * Parameters: poetry_example.main:app --reload

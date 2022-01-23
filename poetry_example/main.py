@@ -36,7 +36,7 @@ async def calculate_get(x: int, y: float) -> CalculationResponse:  # pylint: dis
     result = CalculationResponse(result=value)
     logger.info("Finished. Result=%s", result)
     return result
- 
+
 
 @app.post(
     "/calculate_post", response_model=CalculationResponse, description="Calculates something using a POST request..."

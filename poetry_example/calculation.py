@@ -1,6 +1,3 @@
-from poetry_example.data import CalculationResponse
-
-
 class Calculator:
     def __init__(self, factor: int = 10):
         self.factor = factor
