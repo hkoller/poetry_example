@@ -1,7 +1,13 @@
 [[_TOC_]]
 
 # Project Setup
-1. Install pyenv from https://github.com/pyenv/pyenv-installer
+(written for Ubuntu Linux. Windows might work similarily in principle, but is probably quite different when it comes to details..)
+## Install Pyenv, Poetry and setup the project environment
+
+1. Install pyenv 
+from https://github.com/pyenv/pyenv-installer
+
+Then: 
 ```
 # Ubuntu: make sure you also have libffi-dev installed (otherwise poetry install will fail, below)
 apt install libffi-dev
@@ -10,36 +16,50 @@ pyenv install 3.9.6
 pyenv global system 3.9.6   # make python 3.9.6 available as python3.9 in your system
 ```
 
-2. Get Poetry from here https://python-poetry.org/
+2. Get Poetry 
+see https://python-poetry.org/docs for details but its usually just a
+```
+curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
+```
 
 3. Initialize the environment 
 ``` 
- #in this directory
- poetry install 
+# in this directory
+poetry install 
 ```
 
+Now you should be able to start a poetry shell to enter the poetry dev environment:
+```
+python --version  # Output should be whatevery your regular system Python version is
+
+poetry shell  # start the shell
+
+python --version  # Output should now be: Python 3.9.6 (as defined in pyproject.toml)
+```
+
+
 ## Check the project
-This runs all unittests, checks the code formatting, code style etc. and FAILS if anything looks funky. 
 ```
 poetry shell  # only if you are not already in a poetry shell
-poe check
+poe check   # not a typo! poe is a neat little task runner for poetry (see https://github.com/nat-n/poethepoet )
 ```
+This runs all unittests, checks the code formatting, code style etc. and FAILS if anything looks funky. 
 
 ## Test server locally
 
 ```
 poetry shell
-uvicorn uvicorn poetry_example.main:app --reload
+uvicorn poetry_example.main:app --reload
 ```
 Now:
-- go to http://127.0.0.1:8000/redoc  and look at the API docs
-- go to http://127.0.0.1:8000/docs , check the documentation and try out a request.
+- go to http://127.0.0.1:8000/redoc  and look at the pretty API docs
+- go to http://127.0.0.1:8000/docs  the API docs are less pretty there, but you can directly try out requests here
 
 ## Using PyCharm?
 If you develop using PyCharm, your life will become easier if you install the plug-ins _pydantic_, _mypy_ and 
 _pylint_.
 
-### Black
+### Black Code Formatter
 PyCharm still doesn't support the black code style natively (which we use in this project), so you must follow these
 instructions to define a black shortcut:
 
@@ -47,15 +67,14 @@ https://black.readthedocs.io/en/stable/integrations/editors.html#pycharm-intelli
 
 
 ### Uvicorn
-In order to start uvicorn in PyCharm, create a configuration with: 
+Completely optional (I prefer the commandline). But if you want to start uvicorn directly from PyCharm, you can create a Pycharm module configuration with these properties: 
 * Module name (**not** script path): uvicorn
 * Parameters: poetry_example.main:app --reload
 
 
-
-# Dockerize
+# Dockerize your project
 ## Build the Docker image
-Recommended: use the build script:
+Recommended: use the poe build script:
 ```
 poetry shell  # only if you are not already in a poetry shell
 poe docker
@@ -76,21 +95,21 @@ docker run --rm -p 8000:8000 poetry_example/example:0.0.1.dev   # use correct ve
 
 Now go to http://localhost:8000/docs
 
-### Deploy the image on a server
-1. Transfer the image
+### Deploy the Docker image on a server
+1. Transfer the image to the docker.host
 ```
 docker save -o /tmp/image.docker poetry_example/example:1.2.3
 scp /tmp/image.docker  user@docker.host:
 ```
-2. Import and run
+2. Import and run the image on the docker.host
 ```
 # on the docker.host
 docker load -i image.docker
 
-# test the container
+# test the image
 docker run --rm -p 8000:8000 poetry_example/example:1.2.3   
 
-# now create a docker container or run your docker compose commands
+# now create a docker container, run your docker compose commands etc.
 
 ```
 
@@ -119,5 +138,4 @@ or
 ```
 git push origin --follow-tags
 ```
-
 
