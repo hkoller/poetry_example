@@ -53,26 +53,25 @@ uvicorn poetry_example.main:app --reload
 ```
 Now:
 - go to http://127.0.0.1:8000/redoc  and look at the pretty API docs
-- go to http://127.0.0.1:8000/docs  the API docs are less pretty there, but you can directly try out requests here
+- go to http://127.0.0.1:8000/docs  the API docs are less pretty there, but you can directly try out requests
 
-## Using PyCharm?
-### Make Pycharm use the Poetry environment
-The poetry environment contains a python interpreter and all the poetry-managed dependencies. You need to tell Pycharm to use it. So first find out where the poetry environment is stored:
+## Using PyCharm
+### Setup: make Pycharm use the Poetry environment
+This step is required. The poetry environment contains a Python interpreter and all the poetry-managed dependencies. We need to tell Pycharm to use that. 
+
+So first find out where the Poetry environment is stored:
 ```
 poetry env info  # look at the contents of the Path: variable
 ```
+Now, in Pycharm add a "System Interpreter" for the project and point it to the python3.9 binary in the Poetry environment. 
 
-Now, in Pycharm add a "System Interpreter" and point it to the python3.9 binary in the poetry environment. 
-
-**Warning:** if PyCharm suggests to install python packages for you **DON'T** let it. Python packages **need** to be installed and managed by Poetry (```poetry add some_package```)
+**Warning:** if PyCharm ever suggests to install or update Python packages for you: **DON'T** let it. Python packages **need** to be installed and managed by Poetry (```poetry add some_package```)
 
 ### Tools
-If you develop using PyCharm, your life will become easier if you install the plug-ins _pydantic_, _mypy_ and 
-_pylint_.
+(Optional, but) your life will become easier if you install the plug-ins _pydantic_, _mypy_ and _pylint_.
 
 #### Black Code Formatter
-PyCharm still doesn't support the black code style natively (which we use in this project), so you must follow these
-instructions to define a black shortcut:
+PyCharm still doesn't support the black code style natively (which we use in this project), so you must follow these instructions to define a black shortcut:
 
 https://black.readthedocs.io/en/stable/integrations/editors.html#pycharm-intellij-idea
 
@@ -85,13 +84,13 @@ Completely optional (I prefer the commandline). But if you want to start uvicorn
 
 # Dockerize your project
 ## Build the Docker image
-Recommended: use the poe build script:
+Recommended - use the poe build script:
 ```
 poetry shell  # only if you are not already in a poetry shell
 poe docker
 ```
 
-Manually: see https://stackoverflow.com/questions/53835198/integrating-python-poetry-with-docker
+Manually: (see https://stackoverflow.com/questions/53835198/integrating-python-poetry-with-docker )
 ```
 poetry build
 poetry run poetry-lock-package --build
